@@ -29,8 +29,6 @@ if( title.startswith("#")): #if auto
     content += "\ntitle = " + title
     content += "\ndate = " + date
     content += "\n+++\n"
-else:
-    exit("Pre frontmatter not supported! Aborting!") #FIX ME
 
 
 #body FIX ME
