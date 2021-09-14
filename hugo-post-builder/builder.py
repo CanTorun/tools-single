@@ -1,18 +1,23 @@
-import sys
+# Hugo post builder by Can Torun
+# version : Beta-V2.0
+import os
 from datetime import date
 
-#SetVariables
-n = len(sys.argv) #for debug
-debug = True #debug
-#conf
-Tr2En = str.maketrans("ığüşöç", "igusoc")
-path = './content/post/'    
 
-#env
-title  = sys.argv[1]
+
+# Configuration variables
+Tr2En = str.maketrans("ığüşöç", "igusoc")
+path = './content/post/'
+debug = True #debug
+log = list()
+
+# Get values from env from runner
+title  = os.environ['POST_TITLE']
+body = os.environ['POST_BODY']
+#Set Date
 date = date.today()
 date = date.strftime("%Y-%m-%d")
-body = sys.argv[2]
+#Set content
 content = ""
 
 #prepare file
@@ -26,25 +31,23 @@ file = path + file + ".md"
 if( title.startswith("#")): #if auto
     title = title.replace("#","")
     content += "+++"
-    content += "\ntitle = " + title
-    content += "\ndate = " + date
+    content += "\ntitle = \"" + title + "\""
+    content += "\ndate = \"" + date + "\""
     content += "\n+++\n"
 
 
-#body FIX ME
+#body FIX ME!
 content += body
+content.replace("\n","\n")
 
 with open(file, mode = 'w', encoding = 'utf-8' ) as buffer:
     buffer.write(content)
-    print("Succes! " + file + " generated")
+    log.append("[OK] Succes! " + file + " generated.")
 
 if( debug ):
-    print("\n\n<--->DEBUG")
-    print("total args passed: ",n)
-    print("\nname of python script:",sys.argv[0])
-    print("Today's date:", date)
-    print("File name: ",file)
-    print("Title: ",title)
-    print("Body: ",body)
-    print("\n---\nContent is\n ", content)
-
+    log.append("[VAR](file): " + file)
+    log.append("[VAR](date): " + date)
+    log.append("[VAR](title): " + title)
+    log.append("[VAR](body): " + body)
+    log.append("[VAR](content): " + content)
+    print(log)
